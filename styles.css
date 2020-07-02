@@ -1,0 +1,34 @@
+#board{
+    width: 90%;
+    height: 50%;
+    background-color: darkgray;
+}
+.row{
+    display: flex;
+    
+}
+.square{
+    width: 9%;
+    height: 100px;
+    background-color: rgb(202, 20, 20);
+    margin: 0.1rem;
+}
+
+#game-container{
+    width: 100%;
+    margin: 0 auto;
+    border: 1px solid #000;
+}
+#game-info{
+    padding: 15px;
+    text-align: center;
+}
+#game{
+    display: flex;
+    flex-wrap: wrap;
+    padding: 25px;
+    
+}
+#game :nth-child(3n+1){
+    background-color: white;
+}

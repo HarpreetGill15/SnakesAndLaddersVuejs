@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<link href="/styles.css" rel="stylesheet" />
+<div id="app">
+  <!-- Form to get the names of the players -->
+  <!-- Only display if variable submitted is false -->
+  <form v-if="!submitted">
+    <div>
+      <h2>Enter player names to start the game</h2>
+      <label>Player 1 Name:</label>
+      <input type="text" v-model:value="p1" />
+      <label>Player 2 Name:</label>
+      <input type="text" v-model:value="p2" />
+      <button @click.prevent="addNames">Submit</button>
+    </div>
+  </form>
+  <!-- if submitted is true display the game -->
+  <div v-else id="game-container">
+    <!-- game info -->
+    <!-- dice -->
+    <!-- current player -->
+    <!-- position -->
+    <div id="game-info">
+      <!-- show the dice -->
+      <img v-bind:src="game.dieShow" height="250px" width="250px" />
+      <!-- if the current player hasnt won display the controls -->
+      <div v-if="!game.currentTurn.winner">
+        <button @click.prevent="game.rollDie()">Roll Die</button>
+        <button @click.prevent="game.nextPlayer()">NextPlayer</button>
+      </div>
+      <!-- if the game is over and the player has won show the game to play again -->
+      <div v-if="game.currentTurn.winner">
+        <button @click.prevent="startAgain">Start again</button>
+      </div>
+      <!-- if the game isnt over and the player hasnt won show the current player info -->
+      <h2 v-if="game.currentTurn !== null && game.currentTurn.winner !== true">
+        Current player: {{game.currentTurn.name}}
+        <p>Current Position: {{game.currentTurn.spot}}</p>
+        <img v-bind:src="game.currentTurn.sprite" height="50px" width="50px" />
+      </h2>
+    </div>
+    <!-- If the fame is over display winner message -->
+    <h2 v-if="game.currentTurn !== null && game.currentTurn.winner == true">
+      Winner is {{game.currentTurn.name}}
+      <img v-bind:src="game.currentTurn.sprite" height="150px" width="150px" />
+    </h2>
+    <!-- the game board -->
+    <div id="game">
+      <!-- for each square in the array of squares in the game print a div with the square class -->
+      <div v-for="(square,i) in game.squares" class="square">
+        <div>
+          {{i + 1}}
+          <div>
+            {{square.snakeORLadder}}
+          </div>
+          <img
+            v-if="square.value != null"
+            v-bind:src="square.value"
+            height="150px"
+            width="150px"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="/Components/Game.js"></script>
+  <script src="/Components/Square.js"></script>
+  <script src="/Components/Player.js"></script>
+  <script>
+    let game = new Game();
+
+    var vm = new Vue({
+      el: "#app",
+      data: {
+        game,
+        submitted: false,
+        p1: "",
+        p2: "",
+      },
+      methods: {
+        //add the names to the game 
+        addNames: function () {
+          this.submitted = true;
+          game.players[0].name = this.p1;
+          game.players[1].name = this.p2;
+          game.gameStart();
+        },
+        //start the game again
+        startAgain: function () {
+          this.submitted = false;
+          game.reset();
+        },
+      },
+    });
+  </script>
+</div>
