@@ -1,0 +1,72 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>v-on Event Handlers</title>
+		<meta charset="UTF-8">
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<style>
+			.box{width:200px; height:200px; background:green; border:2px solid black; text-align:center; line-height:200px; color:white;}
+			.hidden{display:none;}
+            .red{width:100px; height:100px; background:red;}
+		</style>
+	</head>
+	<body>
+	
+	<div id="app">
+		<div v-bind:class="{box:true, hidden:boxHidden}">{{message}}</div>
+        <button v-on:click="showhide();">{{buttontext}}</button>
+        <div v-bind:class="{red:true}" v-bind:style="{'height':boxHeight+'px'}" v-on:mouseover="growSquare()"></div>
+	</div>
+	
+	<script>
+	var app = new Vue({
+		el: '#app',
+		
+		data:{
+			boxHeight:100,
+			boxHidden : false,
+            buttontext: "Hide",
+			message  : 'Make me disappear!'
+		},
+		methods:{
+			showhide : function(){
+				console.log(this.boxHidden);
+				if(this.boxHidden){
+					this.boxHidden=false;
+                    this.buttontext= "Hide";
+				}else{
+					this.boxHidden=true;	
+                    this.buttontext= "Show";
+				}
+			},
+            growSquare: function(){
+                console.log("hello");
+                this.boxHeight += 10; 
+            }
+		}
+		
+	});
+	</script>
+	<!--
+		Step 1: Read the code above
+        Step 2: What will happen when you click the button?
+        it will toggle between appearing and disapearing toggling the class hidden
+		Step 3: Run it and find out!
+		
+		v-on:event_handler="method_name(?arg1, ?arg2..)"
+		
+		You can use v-on to attach events directly to elements, similar to regular HTML and JS
+		There must be a matching method name inside the "methods" property, which is a sibling to the "data" property.
+		You can pass in extra information with optional parameters if you wish
+		"this" will evaluate to the app object when used in the context of a method.
+		
+		As always, the virtual dom will dynamically update the content on the screen.
+		
+		ASYNCHRONOUS LEARNING EXERCISE
+		1. Modify this Vue app to make the button text change to "Hide" and "Show" respectively to match the function
+		2. Make a red box 100px * 100px that becomes 10px taller every time you hover over it
+		
+	
+	-->	
+	</body>
+</html>
