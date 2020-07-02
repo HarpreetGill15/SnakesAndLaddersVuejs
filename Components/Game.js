@@ -7,6 +7,7 @@ class Game {
     this.spot = null;
     this.die = null;
     this.dieShow = "/Sprites/dieAnimate.gif";
+    //Filling squares gotten from https://www.youtube.com/watch?v=rqb4FgVNrrM
     this.squares = new Array(50).fill().map((s) => new Square());
     this.players = new Array(2).fill().map((p) => new Player());
     this.ladders = {
